@@ -97,10 +97,11 @@
     const subjects = [
       {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
           zoom:'https://us02web.zoom.us/j/89674227708',
-          practice:'https://meet.google.com/obx-ifnq-rzb' // при необходимости поменяй ссылку на практику
-      }},
+          practice:'https://meet.google.com/obx-ifnq-rzb'
+      }, additional:'https://example.com/matematika-extra'},
       {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування. Лекційні заняття.', 
-       links:{meet:'https://meet.google.com/ura-aign-agn', discord:'https://discord.gg/example'}},
+       links:{meet:'https://meet.google.com/ura-aign-agn'},
+       additional:'https://example.com/algorithm'},
       {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Лекція Узлов Д.Ю.', 
        links:{meet:'https://meet.google.com/wnu-syuj-kbs', discord:'https://meet.google.com/wnu-syuj-kbs'}},
       {title:'Історія України', icon:'📜', desc:'Чугуєнко М.В.', link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1'},
@@ -114,8 +115,10 @@
 
     const grid = document.getElementById('grid');
     function createCard(subject){
-      const el = document.createElement('article'); el.className='card';
-      
+      const el = document.createElement('article'); 
+      el.className='card';
+      const additionalLink = subject.additional || '';
+
       if(subject.links){
         if(subject.title === 'Вища Математика'){
           el.innerHTML = `
@@ -127,7 +130,7 @@
               <button class="btn" data-link="${subject.links.zoom}">Приєднатись</button>
               <div class="btn-label">Практика</div>
               <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
-              <button class="btn secondary">Додатково</button>
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         } else if(subject.title === 'Університетські студії'){
           el.innerHTML = `
@@ -139,7 +142,18 @@
               <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
               <div class="btn-label">Практика</div>
               <button class="btn" data-link="${subject.links.discord}">Приєднатись</button>
-              <button class="btn secondary">Додатково</button>
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
+            </div>`;
+        } else if(subject.title === 'Алгоритмізація'){
+          // Кнопка Discord удалена
+          el.innerHTML = `
+            <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+            <h3>${subject.title}</h3>
+            <p>${subject.desc}</p>
+            <div class="actions">
+              <div class="btn-label">Meet</div>
+              <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         } else {
           el.innerHTML = `
@@ -151,7 +165,7 @@
               <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
               <div class="btn-label">Discord</div>
               <button class="btn" data-link="${subject.links.discord}">Приєднатись</button>
-              <button class="btn secondary">Додатково</button>
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         }
       } else {
@@ -161,7 +175,7 @@
           <p>${subject.desc}</p>
           <div class="actions">
             <button class="btn" data-link="${subject.link}">Приєднатись</button>
-            <button class="btn secondary">Додатково</button>
+            <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
           </div>`;
       }
 
@@ -178,7 +192,12 @@
     grid.addEventListener('click', e=>{
       const btn=e.target.closest('button.btn');if(!btn) return;
       if(btn.matches('.secondary')){
-        alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
+        const link = btn.dataset.additional;
+        if(link) {
+          window.open(link, "_blank");
+        } else {
+          alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
+        }
         return;
       }
       window.open(btn.dataset.link,"_blank");
