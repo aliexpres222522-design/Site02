@@ -62,8 +62,6 @@
     }
     .btn:active{transform:translateY(1px)}
     .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.16);flex:0 0 auto}
-    .btn.hw{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;flex:0 0 auto}
-    .btn.hw:active{transform:translateY(1px)}
     .btn-label{width:100%;font-size:13px;font-weight:600;color:var(--muted);margin-top:6px;margin-bottom:-6px}
     footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
     .social{display:flex;gap:14px;align-items:center}
@@ -97,54 +95,35 @@
 
   <script>
     const subjects = [
-  {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
-      zoom:'https://us02web.zoom.us/j/89674227708',
-      practice:'https://meet.google.com/obx-ifnq-rzb'
-  }, additional: 'math.html', hw:'dzMath.html'},
+      {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
+          zoom:'https://us02web.zoom.us/j/89674227708',
+          practice:'https://meet.google.com/obx-ifnq-rzb'
+      }, additional: 'math.html'},
+      {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування. Лекційні заняття.', 
+       links:{meet:'https://meet.google.com/ura-aign-agn',
+              zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1'
+       },
+       additional:'algor.html'},
 
-  {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування. Лекційні заняття.', 
-   links:{meet:'https://meet.google.com/ura-aign-agn',
-          zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1'
-   },
-   additional:'algor.html', hw: 'dzAlgor.html'
-  },
+      {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Лекція Узлов Д.Ю.', 
+       links:{meet:'https://meet.google.com/wnu-syuj-kbs', discord:'https://meet.google.com/wnu-syuj-kbs', additional: 'unstudio.html'}},
+      {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В.', link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
+   additional:'istoria.html'},
 
-  {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Лекція Узлов Д.Ю.', 
-   links:{meet:'https://meet.google.com/wnu-syuj-kbs', discord:'https://meet.google.com/wnu-syuj-kbs'}, 
-   additional: 'unstudio.html', hw: 'dzUnstudio.html'
-  },
-
-  {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В.', 
-   link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
-   additional:'istoria.html', hw:'dzIstoria.html'
-  },
-
-  {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
-   link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1',
-   additional:'diskret.html', hw:'dzDiskret.html'
-  },
-
-  {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
-   link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html'
-  },
-
-  {title:'Нема інформації', icon:'🧪', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz1.html'},
-  {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html'},
-  {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html'},
-  {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html'}
-];
-
+      {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1',
+      additional:'diskret.html'},
+      {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09'},
+      {title:'Нема інформації', icon:'🧪', desc:'Опис чи викладач.', link:'СЫЛКА'},
+      {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА'},
+      {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА'},
+      {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА'}
+    ];
 
     const grid = document.getElementById('grid');
     function createCard(subject){
       const el = document.createElement('article'); 
       el.className='card';
       const additionalLink = subject.additional || '';
-
-      let extraBtns = `
-        <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
-        <button class="btn hw" ${subject.hw ? `data-hw="${subject.hw}"` : ''}>ДЗ</button>
-      `;
 
       if(subject.links){
         if(subject.title === 'Вища Математика'){
@@ -157,9 +136,22 @@
               <button class="btn" data-link="${subject.links.zoom}">Приєднатись</button>
               <div class="btn-label">Практика</div>
               <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
-              ${extraBtns}
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
+            </div>`;
+        } else if(subject.title === 'Університетські студії'){
+          el.innerHTML = `
+            <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+            <h3>${subject.title}</h3>
+            <p>${subject.desc}</p>
+            <div class="actions">
+              <div class="btn-label">Лекція</div>
+              <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
+              <div class="btn-label">Практика</div>
+              <button class="btn" data-link="${subject.links.discord}">Приєднатись</button>
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         } else if(subject.title === 'Алгоритмізація'){
+          // Кнопка Discord удалена
           el.innerHTML = `
             <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
             <h3>${subject.title}</h3>
@@ -169,7 +161,7 @@
               <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
               <div class="btn-label">Група №2 лабораторні</div>
               <button class="btn" data-link="${subject.links.zom}">Приєднатись</button>
-              ${extraBtns}
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         } else {
           el.innerHTML = `
@@ -181,7 +173,7 @@
               <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
               <div class="btn-label">Discord</div>
               <button class="btn" data-link="${subject.links.discord}">Приєднатись</button>
-              ${extraBtns}
+              <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
             </div>`;
         }
       } else {
@@ -192,9 +184,10 @@
           <div class="actions">
             <div class="btn-label">Zoom</div>
             <button class="btn" data-link="${subject.link}">Приєднатись</button>
-            ${extraBtns}
+            <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
           </div>`;
       }
+
       return el;
     }
 
@@ -209,14 +202,11 @@
       const btn=e.target.closest('button.btn');if(!btn) return;
       if(btn.matches('.secondary')){
         const link = btn.dataset.additional;
-        if(link) window.open(link, "_blank");
-        else alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
-        return;
-      }
-      if(btn.matches('.hw')){
-        const link = btn.dataset.hw;
-        if(link) window.open(link, "_blank");
-        else alert(`Домашнє завдання для «${btn.closest('.card').querySelector('h3').textContent}» ще не додане.`);
+        if(link) {
+          window.open(link, "_blank");
+        } else {
+          alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
+        }
         return;
       }
       window.open(btn.dataset.link,"_blank");

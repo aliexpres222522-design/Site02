@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Домашнє завдання - Історія України</title>
+<style>
+:root {--bg:#0f1222;--card:#161a2f;--text:#e8eaf6;--muted:#b6b9d6;--accent:#6c5ce7;--accent-2:#00d4ff;--radius:18px;--shadow:0 10px 30px rgba(0,0,0,.35);}
+body {margin:0;font-family:Segoe UI, sans-serif;background:var(--bg);color:var(--text);}
+.container{max-width:800px;margin:0 auto;padding:30px;}
+h1{text-align:center;margin-bottom:20px;}
+.card{background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:10px 14px;border:none;border-radius:12px;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block;}
+.task-list{margin-top:20px;}
+.task{padding:12px;background:#1f243d;border-radius:12px;margin-bottom:10px;}
+.task a{color:var(--accent-2);text-decoration:none;}
+textarea,input[type=text]{width:100%;border-radius:12px;padding:10px;margin-bottom:10px;border:none;}
+textarea{min-height:60px;resize:vertical;}
+.author{font-size:13px;color:var(--muted);margin-top:4px;}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Домашнє завдання – Історія України</h1>
+<a href="index.html" class="btn">⬅ Назад на головну</a>
+</header>
+<div class="card">
+<h3>Додати нове завдання</h3>
+<input type="text" id="authorInput" placeholder="Ваше ім’я або нікнейм">
+<textarea id="textInput" placeholder="Введіть текст завдання..."></textarea>
+<input type="file" id="fileInput"><br><br>
+<button class="btn" onclick="addTask()">Додати</button>
+</div>
+<div class="card">
+<h3>Список завдань</h3>
+<div class="task-list" id="taskList"></div>
+</div>
+</div>
+<script>
+let tasks = JSON.parse(localStorage.getItem('tasks_istoria'))||[];
+function renderTasks(){
+  const list=document.getElementById('taskList'); list.innerHTML='';
+  tasks.forEach((task,i)=>{
+    let content='';
+    if(task.type==='text') content=`<p>${task.text}</p>`;
+    else if(task.type==='file') content=`<a href="${task.url}" download="${task.name}">${task.name}</a>`;
+    list.innerHTML+=`<div class="task"><strong>${task.author||"Анонім"}:</strong><br>${content}<div class="author">Додано: ${task.date}</div><button onclick="deleteTask(${i})" style="margin-top:5px;">❌ Видалити</button></div>`;
+  });
+}
+function addTask(){
+  const authorInput=document.getElementById('authorInput');
+  const textInput=document.getElementById('textInput');
+  const fileInput=document.getElementById('fileInput');
+  if(textInput.value.trim()==='' && fileInput.files.length===0){alert("Введіть текст або прикріпіть файл!"); return;}
+  const author=authorInput.value.trim()||"Анонім";
+  const date=new Date().toLocaleString();
+  if(textInput.value.trim()!==''){tasks.push({type:'text',text:textInput.value,author,date}); textInput.value='';}
+  else if(fileInput.files.length>0){const file=fileInput.files[0]; const reader=new FileReader(); reader.onload=function(e){tasks.push({type:'file',name:file.name,url:e.target.result,author,date}); localStorage.setItem('tasks_istoria',JSON.stringify(tasks)); renderTasks();}; reader.readAsDataURL(file); fileInput.value=''; return;}
+  localStorage.setItem('tasks_istoria',JSON.stringify(tasks)); renderTasks();
+}
+function deleteTask(i){tasks.splice(i,1); localStorage.setItem('tasks_istoria',JSON.stringify(tasks)); renderTasks();}
+renderTasks();
+</script>
+</body>
+</html>
