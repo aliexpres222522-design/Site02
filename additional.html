@@ -32,10 +32,19 @@
     .btn{padding:10px 12px;border-radius:12px;font-weight:700;
          background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0f1a;
          text-decoration:none;display:inline-block}
-    .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.16)}
-    .schedule-block{margin-top:50px;text-align:center}
-    .schedule-block img{max-width:100%;border-radius:var(--radius);box-shadow:var(--shadow-soft);}
-    .schedule-text{margin-top:30px;padding:20px;background:var(--card);border-radius:var(--radius);
+    .schedule-block{margin-top:50px}
+    .schedule-table{
+      width:100%;border-collapse:collapse;margin-top:20px;
+      background:var(--card);border-radius:var(--radius);overflow:hidden;
+      box-shadow:var(--shadow-soft);
+    }
+    .schedule-table th,.schedule-table td{
+      padding:12px 16px;text-align:center;font-size:15px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .schedule-table th{background:rgba(108,92,231,.25);color:var(--accent-2);font-size:16px}
+    .schedule-table tr:last-child td{border-bottom:none}
+    .schedule-text{margin-top:40px;padding:20px;background:var(--card);border-radius:var(--radius);
                    box-shadow:var(--shadow-soft);text-align:left;line-height:1.6}
     .schedule-text h2{text-align:center;color:var(--accent-2);margin-bottom:15px}
     .schedule-text .day{color:var(--accent);margin-top:20px;font-weight:700;font-size:18px}
@@ -81,9 +90,28 @@
     </article>
   </main>
 
-  <!-- Блок з розкладом -->
+  <!-- Розклад дзвінків -->
   <div class="schedule-block">
-    <img src="img/dzvinki.jpg" alt="Розклад дзвінків">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Пара</th>
+          <th>Час</th>
+          <th>Перерва</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>08:30 – 09:50</td><td>20 хв</td></tr>
+        <tr><td>2</td><td>10:10 – 11:30</td><td>30 хв</td></tr>
+        <tr><td>3</td><td>12:00 – 13:20</td><td>20 хв</td></tr>
+        <tr><td>4</td><td>13:40 – 15:00</td><td>20 хв</td></tr>
+        <tr><td>5</td><td>15:20 – 16:40</td><td>20 хв</td></tr>
+        <tr><td>6</td><td>17:00 – 18:20</td><td>20 хв</td></tr>
+        <tr><td>7</td><td>18:40 – 20:00</td><td>-</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Розклад предметів -->
     <div class="schedule-text">
       <h2>РАСПИСАНИЕ</h2>
 
