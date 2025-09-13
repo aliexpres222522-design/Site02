@@ -47,8 +47,26 @@
   </div>
 
 <script>
-  const STORAGE_KEY = "tasks_algor"; // 👈 унікальний ключ для предмета
-  let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  // 🔹 Підключення JSONBin
+  const API_URL = "https://api.jsonbin.io/v3/b/68c59d8cae596e708feda56a "; // встав свій ID Bin
+  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // встав свій API Key
+
+  let tasks = [];
+
+  async function loadTasks() {
+    const res = await fetch(API_URL, { headers: { "X-Master-Key": API_KEY } });
+    const data = await res.json();
+    tasks = data.record || [];
+    renderTasks();
+  }
+
+  async function saveTasks() {
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+      body: JSON.stringify(tasks)
+    });
+  }
 
   function renderTasks() {
     const list = document.getElementById('taskList');
@@ -69,7 +87,7 @@
     });
   }
 
-  function addTask() {
+  async function addTask() {
     const authorInput = document.getElementById('authorInput');
     const textInput = document.getElementById('textInput');
     const fileInput = document.getElementById('fileInput');
@@ -88,9 +106,9 @@
     } else if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = async function(e) {
         tasks.push({type:'file', name:file.name, url:e.target.result, author, date});
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+        await saveTasks();
         renderTasks();
       };
       reader.readAsDataURL(file);
@@ -98,17 +116,18 @@
       return;
     }
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    await saveTasks();
     renderTasks();
   }
 
-  function deleteTask(i) {
+  async function deleteTask(i) {
     tasks.splice(i, 1);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    await saveTasks();
     renderTasks();
   }
 
-  renderTasks();
+  // При завантаженні сторінки підтягуємо дані з JSONBin
+  loadTasks();
 </script>
 </body>
 </html>
