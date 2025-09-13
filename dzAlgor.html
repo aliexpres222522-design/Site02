@@ -48,26 +48,37 @@
 
 <script>
   // 🔹 Підключення JSONBin
-  const API_URL = "https://api.jsonbin.io/v3/b/68c59fccae596e708feda758"; // встав свій ID Bin
-  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // встав свій API Key
+  const API_URL = "https://api.jsonbin.io/v3/b/68c59fccae596e708feda758"; // твій Bin ID
+  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // твій API Key
 
   let tasks = [];
 
+  // Завантаження з JSONBin
   async function loadTasks() {
-    const res = await fetch(API_URL, { headers: { "X-Master-Key": API_KEY } });
-    const data = await res.json();
-    tasks = data.record || [];
-    renderTasks();
+    try {
+      const res = await fetch(API_URL, { headers: { "X-Master-Key": API_KEY } });
+      const data = await res.json();
+      // Бін зберігає об'єкт { tasks: [...] }
+      tasks = data.record && Array.isArray(data.record.tasks) ? data.record.tasks : [];
+      renderTasks();
+    } catch (e) {
+      console.error("Помилка завантаження:", e);
+      tasks = [];
+      renderTasks();
+    }
   }
 
+  // Збереження в JSONBin
   async function saveTasks() {
+    const payload = { tasks: tasks }; // 👈 обгортаємо масив в об'єкт
     await fetch(API_URL, {
       method: "PUT",
       headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
-      body: JSON.stringify(tasks)
+      body: JSON.stringify(payload)
     });
   }
 
+  // Відображення на сторінці
   function renderTasks() {
     const list = document.getElementById('taskList');
     list.innerHTML = '';
@@ -87,6 +98,7 @@
     });
   }
 
+  // Додавання нового завдання
   async function addTask() {
     const authorInput = document.getElementById('authorInput');
     const textInput = document.getElementById('textInput');
@@ -120,16 +132,15 @@
     renderTasks();
   }
 
+  // Видалення завдання
   async function deleteTask(i) {
     tasks.splice(i, 1);
     await saveTasks();
     renderTasks();
   }
 
-  // При завантаженні сторінки підтягуємо дані з JSONBin
+  // При завантаженні сторінки
   loadTasks();
 </script>
 </body>
 </html>
-
-
