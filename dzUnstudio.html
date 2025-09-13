@@ -39,7 +39,41 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 </div>
 </div>
 <script>
-let tasks = JSON.parse(localStorage.getItem('tasks_unstudio'))||[];
+// 🔹 Можеш залишити порожні, тоді буде працювати тільки localStorage
+const API_URL = "https://api.jsonbin.io/v3/b/68c5a56d43b1c97be941ee19";
+  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC";
+
+
+let tasks = JSON.parse(localStorage.getItem('tasks_unstudio')) || [];
+
+async function loadTasks(){
+  if(API_URL && API_KEY){
+    try {
+      const res = await fetch(API_URL, { headers: { "X-Master-Key": API_KEY }});
+      const data = await res.json();
+      if(Array.isArray(data.record)) tasks = data.record;
+      else if(data.record && Array.isArray(data.record.tasks)) tasks = data.record.tasks;
+      else tasks = [];
+      localStorage.setItem('tasks_unstudio', JSON.stringify(tasks));
+    } catch(e){ console.error("Помилка JSONBin:", e); }
+  }
+  renderTasks();
+}
+
+async function saveTasks(){
+  localStorage.setItem('tasks_unstudio', JSON.stringify(tasks));
+  if(API_URL && API_KEY){
+    const payload = { tasks: tasks };
+    try{
+      await fetch(API_URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+        body: JSON.stringify(payload)
+      });
+    }catch(e){ console.error("Помилка збереження:", e); }
+  }
+}
+
 function renderTasks(){
   const list=document.getElementById('taskList'); list.innerHTML='';
   tasks.forEach((task,i)=>{
@@ -49,6 +83,7 @@ function renderTasks(){
     list.innerHTML+=`<div class="task"><strong>${task.author||"Анонім"}:</strong><br>${content}<div class="author">Додано: ${task.date}</div><button onclick="deleteTask(${i})" style="margin-top:5px;">❌ Видалити</button></div>`;
   });
 }
+
 function addTask(){
   const authorInput=document.getElementById('authorInput');
   const textInput=document.getElementById('textInput');
@@ -56,12 +91,34 @@ function addTask(){
   if(textInput.value.trim()==='' && fileInput.files.length===0){alert("Введіть текст або прикріпіть файл!"); return;}
   const author=authorInput.value.trim()||"Анонім";
   const date=new Date().toLocaleString();
-  if(textInput.value.trim()!==''){tasks.push({type:'text',text:textInput.value,author,date}); textInput.value='';}
-  else if(fileInput.files.length>0){const file=fileInput.files[0]; const reader=new FileReader(); reader.onload=function(e){tasks.push({type:'file',name:file.name,url:e.target.result,author,date}); localStorage.setItem('tasks_unstudio',JSON.stringify(tasks)); renderTasks();}; reader.readAsDataURL(file); fileInput.value=''; return;}
-  localStorage.setItem('tasks_unstudio',JSON.stringify(tasks)); renderTasks();
+  if(textInput.value.trim()!==''){
+    tasks.push({type:'text',text:textInput.value,author,date});
+    textInput.value='';
+  }
+  else if(fileInput.files.length>0){
+    const file=fileInput.files[0];
+    const reader=new FileReader();
+    reader.onload=function(e){
+      tasks.push({type:'file',name:file.name,url:e.target.result,author,date});
+      saveTasks();
+      renderTasks();
+    };
+    reader.readAsDataURL(file);
+    fileInput.value='';
+    return;
+  }
+  saveTasks();
+  renderTasks();
 }
-function deleteTask(i){tasks.splice(i,1); localStorage.setItem('tasks_unstudio',JSON.stringify(tasks)); renderTasks();}
-renderTasks();
+
+function deleteTask(i){
+  tasks.splice(i,1);
+  saveTasks();
+  renderTasks();
+}
+
+// 🔹 Запуск
+loadTasks();
 </script>
 </body>
 </html>
