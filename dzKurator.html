@@ -38,30 +38,89 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 <div class="task-list" id="taskList"></div>
 </div>
 </div>
+
 <script>
-let tasks = JSON.parse(localStorage.getItem('tasks_kurator'))||[];
-function renderTasks(){
-  const list=document.getElementById('taskList'); list.innerHTML='';
-  tasks.forEach((task,i)=>{
-    let content='';
-    if(task.type==='text') content=`<p>${task.text}</p>`;
-    else if(task.type==='file') content=`<a href="${task.url}" download="${task.name}">${task.name}</a>`;
-    list.innerHTML+=`<div class="task"><strong>${task.author||"Анонім"}:</strong><br>${content}<div class="author">Додано: ${task.date}</div><button onclick="deleteTask(${i})" style="margin-top:5px;">❌ Видалити</button></div>`;
+// 🔹 Подключение JSONBin
+const API_URL = "https://api.jsonbin.io/v3/b/68c5accdae596e708fedb035"; // вставь ID Bin
+const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // вставь API Key
+
+let tasks = [];
+
+async function loadTasks() {
+  const res = await fetch(API_URL, {headers: {"X-Master-Key": API_KEY}});
+  const data = await res.json();
+  tasks = data.record.tasks || [];
+  renderTasks();
+}
+
+async function saveTasks() {
+  await fetch(API_URL, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    },
+    body: JSON.stringify({tasks})
   });
 }
-function addTask(){
-  const authorInput=document.getElementById('authorInput');
-  const textInput=document.getElementById('textInput');
-  const fileInput=document.getElementById('fileInput');
-  if(textInput.value.trim()==='' && fileInput.files.length===0){alert("Введіть текст або прикріпіть файл!"); return;}
-  const author=authorInput.value.trim()||"Анонім";
-  const date=new Date().toLocaleString();
-  if(textInput.value.trim()!==''){tasks.push({type:'text',text:textInput.value,author,date}); textInput.value='';}
-  else if(fileInput.files.length>0){const file=fileInput.files[0]; const reader=new FileReader(); reader.onload=function(e){tasks.push({type:'file',name:file.name,url:e.target.result,author,date}); localStorage.setItem('tasks_kurator',JSON.stringify(tasks)); renderTasks();}; reader.readAsDataURL(file); fileInput.value=''; return;}
-  localStorage.setItem('tasks_kurator',JSON.stringify(tasks)); renderTasks();
+
+function renderTasks() {
+  const list = document.getElementById('taskList');
+  list.innerHTML = '';
+  tasks.forEach((task,i)=>{
+    let content = '';
+    if(task.type==='text') content = `<p>${task.text}</p>`;
+    else if(task.type==='file') content = `<a href="${task.url}" download="${task.name}">${task.name}</a>`;
+    list.innerHTML += `<div class="task">
+      <strong>${task.author||"Анонім"}:</strong><br>
+      ${content}
+      <div class="author">Додано: ${task.date}</div>
+      <button onclick="deleteTask(${i})" style="margin-top:5px;">❌ Видалити</button>
+    </div>`;
+  });
 }
-function deleteTask(i){tasks.splice(i,1); localStorage.setItem('tasks_kurator',JSON.stringify(tasks)); renderTasks();}
-renderTasks();
+
+async function addTask() {
+  const authorInput = document.getElementById('authorInput');
+  const textInput = document.getElementById('textInput');
+  const fileInput = document.getElementById('fileInput');
+
+  if(textInput.value.trim()==='' && fileInput.files.length===0){
+    alert("Введіть текст або прикріпіть файл!");
+    return;
+  }
+
+  const author = authorInput.value.trim() || "Анонім";
+  const date = new Date().toLocaleString();
+
+  if(textInput.value.trim()!==''){
+    tasks.push({type:'text',text:textInput.value,author,date});
+    textInput.value='';
+  } else if(fileInput.files.length>0){
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = async function(e){
+      tasks.push({type:'file',name:file.name,url:e.target.result,author,date});
+      await saveTasks();
+      renderTasks();
+    };
+    reader.readAsDataURL(file);
+    fileInput.value='';
+    return;
+  }
+
+  await saveTasks();
+  renderTasks();
+}
+
+async function deleteTask(i) {
+  tasks.splice(i,1);
+  await saveTasks();
+  renderTasks();
+}
+
+// Загружаем задачи при открытии
+loadTasks();
 </script>
 </body>
 </html>
