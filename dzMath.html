@@ -47,7 +47,32 @@
   </div>
 
 <script>
-  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  // 🔹 ТВОЇ ДАНІ З JSONBin
+  const API_URL = "https://api.jsonbin.io/v3/b/68c5632443b1c97be941afc0";
+ // встав ID Bin
+  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // встав API Key
+
+  let tasks = [];
+
+  async function loadTasks() {
+    const res = await fetch(API_URL, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    const data = await res.json();
+    tasks = data.record || [];
+    renderTasks();
+  }
+
+  async function saveTasks() {
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify(tasks)
+    });
+  }
 
   function renderTasks() {
     const list = document.getElementById('taskList');
@@ -68,7 +93,7 @@
     });
   }
 
-  function addTask() {
+  async function addTask() {
     const authorInput = document.getElementById('authorInput');
     const textInput = document.getElementById('textInput');
     const fileInput = document.getElementById('fileInput');
@@ -87,9 +112,9 @@
     } else if (fileInput.files.length > 0) {
       const file = fileInput.files[0];
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = async function(e) {
         tasks.push({type:'file', name:file.name, url:e.target.result, author, date});
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        await saveTasks();
         renderTasks();
       };
       reader.readAsDataURL(file);
@@ -97,17 +122,18 @@
       return;
     }
 
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    await saveTasks();
     renderTasks();
   }
 
-  function deleteTask(i) {
+  async function deleteTask(i) {
     tasks.splice(i, 1);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    await saveTasks();
     renderTasks();
   }
 
-  renderTasks();
+  // При завантаженні сторінки підтягуємо спільні дані
+  loadTasks();
 </script>
 </body>
 </html>
