@@ -47,33 +47,51 @@
   </div>
 
 <script>
-  // 🔹 ТВОЇ ДАНІ З JSONBin
+  // 🔹 Дані JSONBin
   const API_URL = "https://api.jsonbin.io/v3/b/68c5632443b1c97be941afc0";
- // встав ID Bin
-  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC"; // встав API Key
+  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC";
 
   let tasks = [];
 
+  // Завантаження
   async function loadTasks() {
-    const res = await fetch(API_URL, {
-      headers: { "X-Master-Key": API_KEY }
-    });
-    const data = await res.json();
-    tasks = data.record || [];
-    renderTasks();
+    try {
+      const res = await fetch(API_URL, {
+        headers: { "X-Master-Key": API_KEY }
+      });
+      const data = await res.json();
+
+      // Підтримка і старого формату (масив), і нового (об'єкт з tasks)
+      if (Array.isArray(data.record)) {
+        tasks = data.record;
+      } else if (data.record && Array.isArray(data.record.tasks)) {
+        tasks = data.record.tasks;
+      } else {
+        tasks = [];
+      }
+
+      renderTasks();
+    } catch (err) {
+      console.error("Помилка завантаження:", err);
+      tasks = [];
+      renderTasks();
+    }
   }
 
+  // Збереження
   async function saveTasks() {
+    const payload = { tasks: tasks }; // завжди зберігаємо як об'єкт
     await fetch(API_URL, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Master-Key": API_KEY
       },
-      body: JSON.stringify(tasks)
+      body: JSON.stringify(payload)
     });
   }
 
+  // Відображення
   function renderTasks() {
     const list = document.getElementById('taskList');
     list.innerHTML = '';
@@ -93,6 +111,7 @@
     });
   }
 
+  // Додавання
   async function addTask() {
     const authorInput = document.getElementById('authorInput');
     const textInput = document.getElementById('textInput');
@@ -126,13 +145,14 @@
     renderTasks();
   }
 
+  // Видалення
   async function deleteTask(i) {
     tasks.splice(i, 1);
     await saveTasks();
     renderTasks();
   }
 
-  // При завантаженні сторінки підтягуємо спільні дані
+  // Автозавантаження
   loadTasks();
 </script>
 </body>
