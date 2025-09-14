@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Домашнє завдання - Вища математика</title>
+  <title>Домашнє завдання - Вища математика (Dropbox)</title>
   <style>
     :root {
       --bg:#0f1222; --card:#161a2f; --text:#e8eaf6; --muted:#b6b9d6;
@@ -47,29 +47,63 @@
   </div>
 
 <script>
-  // 🔹 Дані JSONBin
-  const API_URL = "https://api.jsonbin.io/v3/b/68c5632443b1c97be941afc0";
-  const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC";
-
+    // 🔹 JSONBin настройки
+    const API_URL = "https://api.jsonbin.io/v3/b/68c5632443b1c97be941afc0";
+    const API_KEY = "$2a$10$E6WdYYcQCgXExtvWX7vaNejkvcrHmtuNyczCuj308gXyeGdnElYOC";
+  
+    // 🔹 Dropbox Access Token
+    const DROPBOX_TOKEN = "sl.u.AF8p-O-7gQgSZ1rHYFFMnmu-1XVP0byc_Z8Q5UpsLiWOBSRAO5lD_cS0iEQ-a55AX11C8FGwznQvAJLotkyBPzo0i0kyANiB-zvJ1G13_Qdf8FzcRl6Yw-A2xmDm6x8wPdoaqN8smG9hv6PbL0GZhl6vhTBrg5frypXoI3OJBDwEFooz-dXHUf6meQgYXqtdaNcefhQXyvTiiIH9Sta3VWzMNsmnap9SPXH7RRwvUyOvwg2Tp6OFnCg_CVZP5El6DuCf_hTr9eswUps-nRzmsBqzH5D22ymDTQTWjoVrnqB-QG0-56fPzATbqpyv6o5MAMsmUNX98Jd23A_ZJTzZuBt1KwStF35siMbAs24kGbXkwlfNspD-Ulf9Q_s7zpPRcg3KDf_zp5XLOJCErn9Iuisne6f9-gUtx1vsQFFfgy1MQv-0lAyGUX8_JzvjaE5XGxmLtg__OEpjX0_TM5eQvEeLJzL6I_bHAfTRjkVBvq7S3HRzoXtzyrdTTJfNzeeCzuASFIXdZy4oIJOkoY5DSjUkfQ_KJ52tlWsR165D53Pm9zgdM8j6d-rrf_ny2ilMzzT0rpjEEx274f0tuGB73urBLP5MSZrcMLLGBc8VL014ntWJOUJzxM_fmp4f8IMulUW6Ad-UmSPm4A7mnSgM2zd3r7ruC6LBQiZ4lDwmsh0JQUKAi25XAFOaGF4JKvgp57_d0DB0EdDVqxBCFc1jlekUm0w0Mer_j1Nyc8Bb5JsEoGt0YafAwZqheRBtk1bvGsJ6lEQasY4lzlQhoknE-Gj3Cd9kyAXkeunEOHx_TayPUpmORPKC-2ff-k3oMJy9-W7y0NNhLxJ7gc-hY_yh2RNVHDEwRYlMFd-t8F_tHgvKb54f759U5yW6S5fY4G3HO9cydPcDPdOaSCJC0AcVQuOpy8xN0PBRz3fQv_gTu48CmwNQmGdwlad3fnZAH_c1xJWdeB-2R3SGkb3D8Ds1CZjtCC8gU2ZmBkzgBL-gSRdOSIWuOsZdx0HpHt1KJyDKTeduPjCOc-FIHNKzqfRLoEt6cehYn9RAduytRaFai6ZQdwhTSXjJIlpEpq3jal1BzH_zvgGberhl4uHyWHBjgcOGkbQgsAvzuw29H5hLk7ff0G6XQnVzGLJ9jLWQsYrIdcCP5-9yiJB9EohH6mkM5UeMtSQMoTgmPlY21eBdXpe8yM12W_uZLxMofhpxm9jKCCfyuj-HAvLpNv6B6MPumlU04GK0mLhTt11ctlrSuAYwIYxbiAU66xFvq8ycfAiXIqssHgHAasqA7JrZ-aWjlux3TobxypvIuAKhQ9EE_AxOJM0bcaw9nAt75EERq_70a-5TnTZZyZvpMNyu6503US-5kKiwIRMjhsj1KkZ_dHvpi-lX-Fk1hmaEYFtjN7HjUKKhJ-8vSCZNceUqKoReivYO";
+  
+  
   let tasks = [];
 
-  // Завантаження
+  // === Dropbox функции ===
+  async function uploadToDropbox(file) {
+    const dropboxPath = "/homework/" + Date.now() + "_" + file.name; // путь в папке приложения
+    const res = await fetch("https://content.dropboxapi.com/2/files/upload", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${DROPBOX_TOKEN}`,
+        "Dropbox-API-Arg": JSON.stringify({
+          path: dropboxPath,
+          mode: "add",
+          autorename: true,
+          mute: false
+        }),
+        "Content-Type": "application/octet-stream"
+      },
+      body: file
+    });
+    if (!res.ok) throw new Error("Dropbox upload error");
+    return dropboxPath;
+  }
+
+  async function getDropboxLink(path) {
+    const res = await fetch("https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${DROPBOX_TOKEN}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ path })
+    });
+    const data = await res.json();
+    if (data.url) {
+      // Прямая ссылка на скачивание
+      return data.url.replace("?dl=0", "?dl=1");
+    } else {
+      throw new Error("Dropbox link error");
+    }
+  }
+
+  // === JSONBin загрузка/сохранение ===
   async function loadTasks() {
     try {
-      const res = await fetch(API_URL, {
-        headers: { "X-Master-Key": API_KEY }
-      });
+      const res = await fetch(API_URL, { headers: { "X-Master-Key": API_KEY } });
       const data = await res.json();
-
-      // Підтримка і старого формату (масив), і нового (об'єкт з tasks)
-      if (Array.isArray(data.record)) {
-        tasks = data.record;
-      } else if (data.record && Array.isArray(data.record.tasks)) {
-        tasks = data.record.tasks;
-      } else {
-        tasks = [];
-      }
-
+      if (Array.isArray(data.record)) tasks = data.record;
+      else if (data.record && Array.isArray(data.record.tasks)) tasks = data.record.tasks;
+      else tasks = [];
       renderTasks();
     } catch (err) {
       console.error("Помилка завантаження:", err);
@@ -78,9 +112,8 @@
     }
   }
 
-  // Збереження
   async function saveTasks() {
-    const payload = { tasks: tasks }; // завжди зберігаємо як об'єкт
+    const payload = { tasks: tasks };
     await fetch(API_URL, {
       method: "PUT",
       headers: {
@@ -91,7 +124,7 @@
     });
   }
 
-  // Відображення
+  // === UI ===
   function renderTasks() {
     const list = document.getElementById('taskList');
     list.innerHTML = '';
@@ -100,7 +133,7 @@
       if (task.type === 'text') {
         content = `<p>${task.text}</p>`;
       } else if (task.type === 'file') {
-        content = `<a href="${task.url}" download="${task.name}">${task.name}</a>`;
+        content = `<a href="${task.url}" target="_blank" download>${task.name}</a>`;
       }
       list.innerHTML += `<div class="task">
         <strong>${task.author || "Анонім"}:</strong><br>
@@ -111,7 +144,7 @@
     });
   }
 
-  // Додавання
+  // === Добавление ===
   async function addTask() {
     const authorInput = document.getElementById('authorInput');
     const textInput = document.getElementById('textInput');
@@ -128,31 +161,34 @@
     if (textInput.value.trim() !== '') {
       tasks.push({type:'text', text:textInput.value, author, date});
       textInput.value = '';
-    } else if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        tasks.push({type:'file', name:file.name, url:e.target.result, author, date});
-        await saveTasks();
-        renderTasks();
-      };
-      reader.readAsDataURL(file);
-      fileInput.value = '';
+      await saveTasks();
+      renderTasks();
       return;
     }
 
-    await saveTasks();
-    renderTasks();
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      try {
+        const path = await uploadToDropbox(file);
+        const url = await getDropboxLink(path);
+        tasks.push({type:'file', name:file.name, url, author, date});
+        await saveTasks();
+        renderTasks();
+      } catch (err) {
+        console.error(err);
+        alert("Помилка завантаження на Dropbox");
+      }
+      fileInput.value = '';
+    }
   }
 
-  // Видалення
+  // === Удаление ===
   async function deleteTask(i) {
     tasks.splice(i, 1);
     await saveTasks();
     renderTasks();
   }
 
-  // Автозавантаження
   loadTasks();
 </script>
 </body>
