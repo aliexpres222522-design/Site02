@@ -78,8 +78,9 @@
         <div class="title">Розклад КС11 • предметів</div>
         <div class="subtitle">Вибери предмет та натисни «Приєднатись»</div>
       </div>
-      <div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
         <a href="additional.html" class="btn" style="flex:0 0 auto;">Додатково</a>
+        <a href="https://t.me/+N-kPDkReTggyMjJi" target="_blank" class="btn hw" style="flex:0 0 auto;">ДЗ</a>
       </div>
       <label class="search">
         <svg width="18" height="18" viewBox="0 0 24 24"><path d="M21 21l-3.5-3.5M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -97,43 +98,36 @@
 
   <script>
     const subjects = [
-  {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
-      zoom:'https://us02web.zoom.us/j/89674227708',
-      practice:'https://meet.google.com/obx-ifnq-rzb'
-  }, additional: 'math.html', hw:'dzMath.html'},
-
-  {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування. Лекційні заняття.', 
-   links:{meet:'https://meet.google.com/ura-aign-agn',
-          zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1'
-   },
-   additional:'algor.html', hw: 'dzAlgor.html'
-  },
-
-  {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Лекція Узлов Д.Ю.', 
-   links:{meet:'https://meet.google.com/wnu-syuj-kbs', discord:'https://meet.google.com/wnu-syuj-kbs'}, 
-   additional: 'unstudio.html', hw: 'dzUnstudio.html'
-  },
-
-  {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В.', 
-   link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
-   additional:'istoria.html', hw:'dzIstoria.html'
-  },
-
-  {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
-   link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1',
-   additional:'diskret.html', hw:'dzDiskret.html'
-  },
-
-  {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
-   link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html'
-  },
-
-  {title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', link:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09',additional:'ENG.html', hw:'dzENG.html'},
-  {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html'},
-  {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html'},
-  {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html'}
-];
-
+      {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
+          zoom:'https://us02web.zoom.us/j/89674227708',
+          practice:'https://meet.google.com/obx-ifnq-rzb'
+      }, additional: 'math.html', hw:'dzMath.html'},
+      {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування. Лекційні заняття.', 
+       links:{meet:'https://meet.google.com/ura-aign-agn',
+              zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1'
+       },
+       additional:'algor.html', hw: 'dzAlgor.html'
+      },
+      {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Лекція Узлов Д.Ю.', 
+       links:{meet:'https://meet.google.com/wnu-syuj-kbs', discord:'https://meet.google.com/wnu-syuj-kbs'}, 
+       additional: 'unstudio.html', hw: 'dzUnstudio.html'
+      },
+      {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В.', 
+       link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
+       additional:'istoria.html', hw:'dzIstoria.html'
+      },
+      {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
+       link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1',
+       additional:'diskret.html', hw:'dzDiskret.html'
+      },
+      {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
+       link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html'
+      },
+      {title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', link:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09',additional:'ENG.html', hw:'dzENG.html'},
+      {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html'},
+      {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html'},
+      {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html'}
+    ];
 
     const grid = document.getElementById('grid');
     function createCard(subject){
@@ -143,7 +137,6 @@
 
       let extraBtns = `
         <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
-        <button class="btn hw" ${subject.hw ? `data-hw="${subject.hw}"` : ''}>ДЗ</button>
       `;
 
       if(subject.links){
@@ -211,12 +204,6 @@
         const link = btn.dataset.additional;
         if(link) window.open(link, "_blank");
         else alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
-        return;
-      }
-      if(btn.matches('.hw')){
-        const link = btn.dataset.hw;
-        if(link) window.open(link, "_blank");
-        else alert(`Домашнє завдання для «${btn.closest('.card').querySelector('h3').textContent}» ще не додане.`);
         return;
       }
       window.open(btn.dataset.link,"_blank");
