@@ -113,7 +113,10 @@
        additional: 'unstudio.html', hw: 'dzUnstudio.html'
       },
       {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В.', 
-       link:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
+       links:{
+         old:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
+         new:'https://us02web.zoom.us/j/88324441532'
+       },
        additional:'istoria.html', hw:'dzIstoria.html'
       },
       {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
@@ -123,7 +126,12 @@
       {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
        link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html'
       },
-      {title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', link:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09',additional:'ENG.html', hw:'dzENG.html'},
+      {title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', 
+       links:{
+         zoom1:'https://us05web.zoom.us/j/3749499044?pwd=DAta1gOcsU3yUStFEn7gbSuTJVxcbR.1',
+         zoom2:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09'
+       },
+       additional:'ENG.html', hw:'dzENG.html'},
       {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html'},
       {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html'},
       {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html'}
@@ -139,45 +147,70 @@
         <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
       `;
 
-      if(subject.links){
-        if(subject.title === 'Вища Математика'){
-          el.innerHTML = `
-            <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-            <h3>${subject.title}</h3>
-            <p>${subject.desc}</p>
-            <div class="actions">
-              <div class="btn-label">Лекція: Nikolenko1</div>
-              <button class="btn" data-link="${subject.links.zoom}">Приєднатись</button>
-              <div class="btn-label">Практика</div>
-              <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
-              ${extraBtns}
-            </div>`;
-        } else if(subject.title === 'Алгоритмізація'){
-          el.innerHTML = `
-            <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-            <h3>${subject.title}</h3>
-            <p>${subject.desc}</p>
-            <div class="actions">
-              <div class="btn-label">Meet</div>
-              <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
-              <div class="btn-label">Група №2 лабораторні</div>
-              <button class="btn" data-link="${subject.links.zom}">Приєднатись</button>
-              ${extraBtns}
-            </div>`;
-        } else {
-          el.innerHTML = `
-            <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-            <h3>${subject.title}</h3>
-            <p>${subject.desc}</p>
-            <div class="actions">
-              <div class="btn-label">Meet</div>
-              <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
-              <div class="btn-label">Discord</div>
-              <button class="btn" data-link="${subject.links.discord}">Приєднатись</button>
-              ${extraBtns}
-            </div>`;
-        }
-      } else {
+      if(subject.title === 'Вища Математика'){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Лекція: Nikolenko1</div>
+            <button class="btn" data-link="${subject.links.zoom}">Приєднатись</button>
+            <div class="btn-label">Практика</div>
+            <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      } 
+      else if(subject.title === 'Алгоритмізація'){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Meet</div>
+            <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
+            <div class="btn-label">Група №2 лабораторні</div>
+            <button class="btn" data-link="${subject.links.zom}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      }
+      else if(subject.title === 'Історія України'){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Практика</div>
+            <button class="btn" data-link="${subject.links.old}">Приєднатись</button>
+            <div class="btn-label">Лекція: MrL1EvWK</div>
+            <button class="btn" data-link="${subject.links.new}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      }
+      else if(subject.title === 'Англійська мова'){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Лекція</div>
+            <button class="btn" data-link="${subject.links.zoom1}">Приєднатись</button>
+            <div class="btn-label">Практика</div>
+            <button class="btn" data-link="${subject.links.zoom2}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      }
+      else if(subject.links){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Meet</div>
+            <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      } 
+      else {
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
@@ -214,4 +247,3 @@
   </script>
 </body>
 </html>
-
