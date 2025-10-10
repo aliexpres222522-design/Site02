@@ -109,7 +109,10 @@
        additional:'algor.html', hw: 'dzAlgor.html'
       },
       {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Узлов Д.Ю./Зінов*єв Д.В.', 
-       links:{meet:'https://meet.google.com/wnu-syuj-kbs', practice:'https://meet.google.com/wnu-syuj-kbs'}, 
+       links:{
+         lecture:'https://meet.google.com/coj-ypkb-gcs',
+         practice:'https://meet.google.com/wnu-syuj-kbs'
+       }, 
        additional: 'unstudio.html', hw: 'dzUnstudio.html'
       },
       {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В./Домановська М.Є.', 
@@ -138,6 +141,7 @@
     ];
 
     const grid = document.getElementById('grid');
+
     function createCard(subject){
       const el = document.createElement('article'); 
       el.className='card';
@@ -147,7 +151,21 @@
         <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
       `;
 
-      if(subject.title === 'Вища Математика'){
+      if(subject.title === 'Університетські студії'){
+        el.innerHTML = `
+          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+          <h3>${subject.title}</h3>
+          <p>${subject.desc}</p>
+          <div class="actions">
+            <div class="btn-label">Лекція</div>
+            <button class="btn" data-link="${subject.links.lecture}">Приєднатись</button>
+            <div class="btn-label">Практика</div>
+            <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
+            ${extraBtns}
+          </div>`;
+      }
+
+      else if(subject.title === 'Вища Математика'){
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
@@ -247,6 +265,3 @@
   </script>
 </body>
 </html>
-
-
-
