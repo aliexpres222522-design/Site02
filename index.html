@@ -142,11 +142,26 @@
     }
 
     .grid {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 18px;
-    }
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* Для экранов до 600px – по 2 карточки в ряд */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Для очень маленьких экранов, например до 360px – по 1 карточке */
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
     .card{
       position:relative;background:linear-gradient(180deg, rgba(255,128,0,.1), rgba(255,128,0,.04));
