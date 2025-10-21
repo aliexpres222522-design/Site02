@@ -1,81 +1,165 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Додаткова інформація КС11</title>
-  <style>
-    :root{
-      --bg:#0f1222; --card:#161a2f; --text:#e8eaf6; --muted:#b6b9d6;
-      --accent:#6c5ce7; --accent-2:#00d4ff; --ok:#22c55e;
-      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
-      --shadow-soft:0 6px 18px rgba(0,0,0,.25); --ring:0 0 0 3px rgba(108,92,231,.25);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;}
-    body{color:var(--text);background:radial-gradient(1200px 1200px at 10% 10%,#172044 0%,#0f1222 50%,#0d0f1b 100%)}
-    .container{max-width:1100px;margin:0 auto;padding:40px 20px 60px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .title{font-size:clamp(22px,3vw,34px);font-weight:800;letter-spacing:.2px}
-    .subtitle{color:var(--muted);font-size:clamp(14px,2vw,16px)}
-    .grid{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
-    .card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:.18s;overflow:hidden}
-    .card::after{content:'';position:absolute;inset:auto -20% -60% -20%;height:60%;background:radial-gradient(60% 60% at 50% 0%,rgba(0,212,255,.25) 0%,transparent 70%);pointer-events:none}
-    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.45);border-color:rgba(108,92,231,.6)}
-    .badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);padding:6px 10px;border-radius:999px;margin-bottom:10px}
-    .icon{font-size:28px;line-height:1}
-    .card h3{margin:8px 0 6px;font-size:18px}
-    .card p{margin:0 0 14px;color:var(--muted);font-size:14px;min-height:40px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{appearance:none;border:0;cursor:pointer;user-select:none;padding:10px 12px;border-radius:12px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0f1a;flex:1;box-shadow:var(--shadow-soft);transition:.1s}
-    .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.16);flex:0 0 auto}
-    footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Додаткова інформація – Університетські студії</title>
+<style>
+:root {
+  --bg:#0a0812;
+  --card-bg: linear-gradient(180deg, rgba(255,128,0,.1), rgba(255,128,0,.04));
+  --card-border: rgba(255,128,0,.25);
+  --text:#f8e8d8;
+  --muted:#c8b9a3;
+  --accent:#ff7b00;
+  --accent-2:#ff4500;
+  --radius:18px;
+  --shadow:0 10px 30px rgba(0,0,0,.6);
+  --shadow-soft:0 6px 18px rgba(0,0,0,.5);
+}
+
+* { box-sizing: border-box; margin:0; padding:0; }
+html, body { height:100%; font-family: 'Poppins', system-ui; color: var(--text); background: var(--bg); overflow-x:hidden; }
+
+body{
+  background: #000 url('img/dzvinki.jpg') center/cover no-repeat fixed;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* --- Анімований туман --- */
+.fog {
+  position: fixed; inset: 0;
+  background: url('img/fog.png') repeat;
+  opacity: .12;
+  animation: fogmove 120s linear infinite;
+  z-index: 1; pointer-events: none;
+}
+@keyframes fogmove { from {background-position:0 0;} to {background-position:10000px 0;} }
+
+/* --- Летучі миші --- */
+.bat {
+  position: fixed;
+  width: 60px;
+  height: 40px;
+  background: url('img/bat.gif') no-repeat center/contain;
+  animation: fly 18s ease-in-out infinite alternate;
+  opacity: .9;
+  z-index: 3;
+  pointer-events: none;
+}
+@keyframes fly {
+  0% { transform: translate(0vw, 10vh) rotate(5deg) scale(1); }
+  25% { transform: translate(25vw, 30vh) rotate(-8deg) scale(1.1); }
+  50% { transform: translate(50vw, 15vh) rotate(6deg) scale(1); }
+  75% { transform: translate(75vw, 35vh) rotate(-10deg) scale(1.1); }
+  100% { transform: translate(100vw, 20vh) rotate(4deg) scale(1); }
+}
+
+/* --- Контейнер і контент --- */
+.container { max-width:1100px; margin:0 auto; padding:40px 20px 60px; position:relative; z-index:2; }
+header { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.title { font-size:clamp(22px,3vw,34px); font-weight:800; }
+.subtitle { color: var(--muted); font-size:clamp(14px,2vw,16px); }
+.grid { margin-top:28px; display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
+
+/* --- Карточки --- */
+.card {
+  position:relative;
+  background: var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding:18px;
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .3s ease;
+  overflow:hidden;
+}
+.card:hover { transform: scale(1.03); box-shadow:0 0 30px rgba(255,128,0,.4); border-color: var(--accent); }
+.badge { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); background: rgba(108,92,231,.12); border:1px solid rgba(108,92,231,.35); padding:6px 10px; border-radius:999px; margin-bottom:10px; }
+.icon { font-size:28px; line-height:1; }
+.card h3 { margin:8px 0 6px; font-size:18px; }
+.card p { margin:0 0 14px; color: var(--muted); font-size:14px; min-height:40px; }
+.actions { display:flex; gap:10px; flex-wrap:wrap; }
+
+/* --- Кнопки --- */
+.btn {
+  appearance:none;
+  border:0;
+  cursor:pointer;
+  user-select:none;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#0b0f1a;
+  flex:1;
+  box-shadow:var(--shadow-soft);
+  transition: transform .1s ease, box-shadow .3s ease;
+  text-align:center;
+  text-decoration:none;
+  display:inline-block;
+}
+.btn:hover { box-shadow: 0 0 20px rgba(255,128,0,.7); }
+.btn:active { transform: translateY(1px); }
+.btn.secondary { background:transparent; color: var(--text); border:1px solid rgba(255,255,255,.16); flex:0 0 auto; }
+
+footer { margin-top:30px; color: var(--muted); font-size:13px; text-align:center; position:relative; z-index:2; }
+</style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div>
-      <div class="title">Додаткова інформація "Університетські студії"</div>
-      <div class="subtitle">Тут буде додаткова інформація за предметом "Університетські студії".</div>
-    </div>
-    <div>
-      <a href="index.html" class="btn" style="flex:0 0 auto;">Назад</a>
-    </div>
-  </header>
+  <!-- Туман -->
+  <div class="fog"></div>
 
-  <main class="grid">
-    <article class="card">
-      <div class="badge"><span class="icon">📌</span><span>Telegram</span></div>
-      <h3>Університетські студії</h3>
-      <p>Телеграм група з викладачем.</p>
-      <div class="actions">
-        <a class="btn" href="https://t.me/+8JrJnA2GP8dmZmY6" target="_blank">Відкрити</a>
+  <!-- Летучі миші -->
+  <div class="bat" style="animation-duration: 12s; top:50px; left:0;"></div>
+  <div class="bat" style="animation-duration: 15s; top:150px; left:-200px;"></div>
+  <div class="bat" style="animation-duration: 10s; top:100px; left:-100px;"></div>
+
+  <div class="container">
+    <header>
+      <div>
+        <div class="title">Додаткова інформація "Університетські студії"</div>
+        <div class="subtitle">Вся інформація з предмету "Університетські студії".</div>
       </div>
-    </article>
-
-    <article class="card">
-      <div class="badge"><span class="icon">📌</span><span>Telegram</span></div>
-      <h3>Університетські студії</h3>
-      <p>Записи усіх лекцій.</p>
-      <div class="actions">
-        <a class="btn" href="https://t.me/+Bn2wO3oH_GsxOTUy" target="_blank">Відкрити</a>
+      <div>
+        <a href="index.html" class="btn secondary">Назад</a>
       </div>
-    </article>    
+    </header>
 
-    <article class="card">
-      <div class="badge"><span class="icon">📌</span><span>інформація</span></div>
-      <h3>Гугл диск</h3>
-      <p>Загальна інформація від деканату.</p>
-      <div class="actions">
-        <a class="btn" href="https://drive.google.com/drive/folders/0B3br2wqv1b06UFpOVGUzcTA1Vnc?resourcekey=0-qzfOja_Y1Td05uJ-vpb08w" target="_blank">Відкрити</a>
-      </div>
-    </article>
-  </main>
+    <main class="grid">
+      <article class="card">
+        <div class="badge"><span class="icon">📌</span>Telegram</div>
+        <h3>Університетські студії</h3>
+        <p>Телеграм група з викладачем.</p>
+        <div class="actions">
+          <a class="btn" href="https://t.me/+8JrJnA2GP8dmZmY6" target="_blank">Відкрити</a>
+        </div>
+      </article>
 
-  <footer>© <span id="year"></span> Расписание КС11. Демоверсия.</footer>
-</div>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+      <article class="card">
+        <div class="badge"><span class="icon">📌</span>Telegram</div>
+        <h3>Записи лекцій</h3>
+        <p>Всі записи лекцій доступні тут.</p>
+        <div class="actions">
+          <a class="btn" href="https://t.me/+Bn2wO3oH_GsxOTUy" target="_blank">Відкрити</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="badge"><span class="icon">📌</span>Інформація</div>
+        <h3>Гугл диск</h3>
+        <p>Загальна інформація від деканату.</p>
+        <div class="actions">
+          <a class="btn" href="https://drive.google.com/drive/folders/0B3br2wqv1b06UFpOVGUzcTA1Vnc?resourcekey=0-qzfOja_Y1Td05uJ-vpb08w" target="_blank">Відкрити</a>
+        </div>
+      </article>
+    </main>
+
+    <footer>© <span id="year"></span> Расписание КС11. Демоверсия.</footer>
+  </div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
-</>
-
+</html>

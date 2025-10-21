@@ -3,92 +3,346 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Предметы КС11</title>
+  <title>🎃 Предметы КС11</title>
   <style>
-    :root{
-      --bg:#0f1222;
-      --card:#161a2f;
-      --text:#e8eaf6;
-      --muted:#b6b9d6;
-      --accent:#6c5ce7;
-      --accent-2:#00d4ff;
-      --ok:#22c55e;
-      --radius:18px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --shadow-soft: 0 6px 18px rgba(0,0,0,.25);
-      --ring: 0 0 0 3px rgba(108,92,231,.25);
+    :root {
+      --bg: #0a0812;
+      --card: #181222;
+      --text: #f8e8d8;
+      --muted: #c8b9a3;
+      --accent: #ff7b00;
+      --accent-2: #ff4500;
+      --ok: #00ff9d;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.6);
+      --shadow-soft: 0 6px 18px rgba(0,0,0,.5);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
     body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--text);
-      background: radial-gradient(1200px 1200px at 10% 10%, #172044 0%, #0f1222 50%, #0d0f1b 100%);
+      font-family: 'Poppins', system-ui;
+      color: var(--text);
+      background: #000 url('img/dzvinki.jpg') center/cover no-repeat fixed;
+      position: relative;
+      min-height: 100vh;
     }
-    .container{max-width:1100px;margin:0 auto;padding:40px 20px 60px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-    .title{font-size:clamp(22px, 3vw, 34px);font-weight:800;letter-spacing:.2px}
-    .subtitle{color:var(--muted);font-size:clamp(14px, 2vw, 16px)}
-    .search{
-      display:flex;gap:10px;align-items:center;
-      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-      border-radius:999px;padding:10px 14px;box-shadow:var(--shadow-soft)
+
+    /* --- Анимированный туман --- */
+    .fog {
+      position: fixed; inset: 0;
+      background: url('img/fog.png') repeat;
+      opacity: .12;
+      animation: fogmove 120s linear infinite;
+      z-index: 1; pointer-events: none;
     }
-    .search input{background:transparent;border:0;outline:0;color:var(--text);width:220px;max-width:50vw}
-    .grid{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+    @keyframes fogmove {from {background-position:0 0;} to {background-position:10000px 0;}}
+
+    /* --- Паутина --- */
+    .web {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('img/spider.gif') top left no-repeat,
+                  url('img/spider.gif') top right no-repeat;
+      background-size: 200px;
+      opacity: .25; z-index: 2; pointer-events: none;
+    }
+
+    /* --- Летучие мыши --- */
+    /* --- Летучие мыши --- */
+.bat {
+  position: fixed;
+  width: 60px;
+  height: 40px;
+  background: url('img/bat.gif') no-repeat center/contain;
+  animation: fly 18s ease-in-out infinite alternate;
+  opacity: .9;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Эффект постоянного полёта */
+@keyframes fly {
+  0% {
+    transform: translate(0vw, 10vh) rotate(5deg) scale(1);
+  }
+  25% {
+    transform: translate(25vw, 30vh) rotate(-8deg) scale(1.1);
+  }
+  50% {
+    transform: translate(50vw, 15vh) rotate(6deg) scale(1);
+  }
+  75% {
+    transform: translate(75vw, 35vh) rotate(-10deg) scale(1.1);
+  }
+  100% {
+    transform: translate(100vw, 20vh) rotate(4deg) scale(1);
+  }
+}
+
+/* Чтобы каждая мышь летала чуть по-разному */
+.bat:nth-child(3) { animation-duration: 20s; animation-delay: 0s; }
+.bat:nth-child(4) { animation-duration: 22s; animation-delay: 4s; top: 30%; }
+
+
+    /* --- Тыквы --- */
+    .pumpkin {
+      position: fixed; width: 60px; height: 60px;
+      background: url('img/pumpkin.png') no-repeat center/contain;
+      z-index: 4; opacity: .9;
+      animation: floatPump 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes floatPump {0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);}}
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      position: relative;
+      z-index: 5;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .search input {
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      width: 220px;
+      max-width: 50vw;
+    }
+
+    .grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
     .card{
-      position:relative;background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:18px;
-      box-shadow:var(--shadow);transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;overflow:hidden
+      position:relative;background:linear-gradient(180deg, rgba(255,128,0,.1), rgba(255,128,0,.04));
+      border:1px solid rgba(255,128,0,.25);
+      border-radius:var(--radius);padding:18px;
+      box-shadow:var(--shadow);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .3s ease;
+      overflow:hidden;animation: floatCard 6s ease-in-out infinite;
+      width: 100%;
+      max-width: 260px;
     }
-    .card::after{content:'';position:absolute;inset:auto -20% -60% -20%;height:60%;background:radial-gradient(60% 60% at 50% 0%, rgba(0,212,255,.25) 0%, transparent 70%);pointer-events:none}
-    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.45);border-color:rgba(108,92,231,.6)}
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);
-      background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);padding:6px 10px;border-radius:999px;margin-bottom:10px
+
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: auto -20% -60% -20%;
+      height: 60%;
+      background: radial-gradient(60% 60% at 50% 0%, rgba(0,212,255,.25) 0%, transparent 70%);
+      pointer-events: none;
     }
-    .icon{font-size:28px;line-height:1}
-    .card h3{margin:8px 0 6px;font-size:18px}
-    .card p{margin:0 0 14px;color:var(--muted);font-size:14px;min-height:40px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      appearance:none;border:0;cursor:pointer;user-select:none;
-      padding:10px 12px;border-radius:12px;font-weight:700;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2));
-      color:#0b0f1a;flex:1;box-shadow:var(--shadow-soft);
-      transition: transform .1s ease, box-shadow .2s ease;
-      text-decoration:none;text-align:center;display:inline-block
+
+    .card:hover {
+      transform:scale(1.03);
+      box-shadow:0 0 30px rgba(255,128,0,.4);
+      border-color:var(--accent)
     }
-    .btn:active{transform:translateY(1px)}
-    .btn.secondary{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.16);flex:0 0 auto}
-    .btn.hw{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;flex:0 0 auto}
-    .btn.hw:active{transform:translateY(1px)}
-    .btn-label{width:100%;font-size:13px;font-weight:600;color:var(--muted);margin-top:6px;margin-bottom:-6px}
-    footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
-    .social{display:flex;gap:14px;align-items:center}
-    .social a img{width:28px;height:28px;filter:invert(85%) sepia(20%) saturate(400%) hue-rotate(200deg);transition:transform .2s ease, filter .2s ease}
-    .social a img:hover{transform:scale(1.1);filter:invert(60%) sepia(80%) saturate(600%) hue-rotate(220deg)}
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(108,92,231,.12);
+      border: 1px solid rgba(108,92,231,.35);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .icon { font-size: 28px; line-height: 1; }
+
+    .card h3 {
+      margin: 8px 0 6px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 14px;
+      min-height: 40px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn{appearance:none;
+      border:0;
+      cursor:pointer;
+      user-select:none;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:700;
+      background:linear-gradient(135deg,#ff6600,#ff3300);
+      color:#fff;
+      flex:1;
+      box-shadow:0 0 12px rgba(255,128,0,.4);
+      transition:transform .1s ease, box-shadow .3s ease;
+      text-decoration:none;
+      text-align:center;display:inline-block
+    }
+
+    .btn:hover {
+  box-shadow: 0 0 20px rgba(255,128,0,.7);   /* ← усиливаем свечение при наведении */
+}
+
+
+.btn:active {
+  transform: translateY(1px);   /* ← кнопка слегка нажимается */
+}
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.16);
+      flex: 0 0 auto;
+    }
+
+    .btn.hw {
+      background: linear-gradient(135deg,#22c55e,#16a34a);
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .btn.hw:active { transform: translateY(1px); }
+
+    .btn-label {
+      width: 100%;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 6px;
+      margin-bottom: -6px;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .social {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .social a img {
+      width: 28px;
+      height: 28px;
+      filter: invert(85%) sepia(20%) saturate(400%) hue-rotate(200deg);
+      transition: transform .2s ease, filter .2s ease;
+    }
+
+    .social a img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(255,128,0,0.8)) brightness(1.3)
+          sepia(50%) saturate(600%) hue-rotate(10deg);
+}
+.spider-left, .spider-right {
+  position: fixed;
+  width: 150px;   /* увеличиваем ширину */
+  height: 150px;  /* увеличиваем высоту */
+  z-index: 4;
+  pointer-events: none;
+}
+
+.spider-left {
+  top: 0;
+  left: 0;
+}
+
+.spider-right {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1); /* отражаем по горизонтали, чтобы выглядел симметрично */
+}
+
+
   </style>
 </head>
 <body>
+  <!-- Анимации -->
+  <div class="fog"></div>
+  <div class="web"></div>
+  <div class="bat" style="top:10%; left:5%;"></div>
+  <div class="bat" style="top:20%; left:60%; animation-delay: 5s;"></div>
+  <div class="pumpkin" style="bottom:10%; left:20%;"></div>
+  <div class="pumpkin" style="bottom:5%; left:70%; animation-delay: 2s;"></div>
+  <!-- Внутри <body>, перед контейнером -->
+<img src="img/spider.webp" alt="Spider Left" class="spider-left">
+<img src="img/spider.webp" alt="Spider Right" class="spider-right">
+
+
   <div class="container">
     <header>
       <div>
-        <div class="title">Розклад КС11 • предметів</div>
+        <div class="title">🎃Розклад КС11 • предметів</div>
         <div class="subtitle">Вибери предмет та натисни «Приєднатись»</div>
       </div>
+
       <div style="display:flex; gap:10px; flex-wrap:wrap;">
         <a href="additional.html" class="btn" style="flex:0 0 auto;">Додатково</a>
         <a href="https://t.me/+N-kPDkReTggyMjJi" target="_blank" class="btn hw" style="flex:0 0 auto;">ДЗ</a>
       </div>
+
       <label class="search">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M21 21l-3.5-3.5M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path d="M21 21l-3.5-3.5M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <input id="search" type="search" placeholder="Найти предмет…" />
       </label>
+
       <div class="social">
-        <a href="https://t.me/+obR1SdAkT5w1OTZi" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram" /></a>
-        <a href="https://discord.gg/bQk2FhHB" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" /></a>
+        <a href="https://t.me/+obR1SdAkT5w1OTZi" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram" />
+        </a>
+        <a href="https://discord.gg/bQk2FhHB" target="_blank">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" />
+        </a>
       </div>
     </header>
 
@@ -98,60 +352,50 @@
 
   <script>
     const subjects = [
-      {title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
+      { title:'Вища Математика', icon:'➗', desc:'Ірина Ніколенко.', links:{
           zoom:'https://us02web.zoom.us/j/89674227708',
           practice:'https://meet.google.com/zpf-yqvc-yiv'
-      }, additional: 'math.html', hw:'dzMath.html'},
-      {title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування.', 
-       links:{meet:'https://meet.google.com/ura-aign-agn',
-              zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1'
-       },
-       additional:'algor.html', hw: 'dzAlgor.html'
+        }, additional: 'math.html', hw:'dzMath.html' 
       },
-      {title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Узлов Д.Ю./Зінов*єв Д.В.', 
-       links:{
-         lecture:'https://meet.google.com/coj-ypkb-gcs',
-         practice:'https://meet.google.com/wnu-syuj-kbs'
-       }, 
-       additional: 'unstudio.html', hw: 'dzUnstudio.html'
+      { title:'Алгоритмізація', icon:'💻', desc:'Алгоритмізація та програмування.', 
+        links:{ meet:'https://meet.google.com/ura-aign-agn', zom: 'https://us02web.zoom.us/j/81737523704?pwd=FrJuSycIOxMdRZ592vqCiQHblxWmF6.1' },
+        additional:'algor.html', hw: 'dzAlgor.html' 
       },
-      {title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В./Домановська М.Є.', 
-       links:{
-         old:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1',
-         new:'https://us02web.zoom.us/j/88324441532'
-       },
-       additional:'istoria.html', hw:'dzIstoria.html'
+      { title:'Університетські студії', icon:'📄', desc:'Університетські студії та вступ до комп*ютерних наук Узлов Д.Ю./Зінов*єв Д.В.', 
+        links:{ lecture:'https://meet.google.com/coj-ypkb-gcs', practice:'https://meet.google.com/wnu-syuj-kbs' }, 
+        additional: 'unstudio.html', hw: 'dzUnstudio.html' 
       },
-      {title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
-       link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1',
-       additional:'diskret.html', hw:'dzDiskret.html'
+      { title:'Історія України', icon:'📜', desc:'Викладач з предмету: Чугуєнко М.В./Домановська М.Є.', 
+        links:{ old:'https://us02web.zoom.us/j/87566300750?pwd=MRyIvYmqWoBkblMbakh6kv78ARlP0T.1', new:'https://us02web.zoom.us/j/88324441532' },
+        additional:'istoria.html', hw:'dzIstoria.html' 
       },
-      {title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
-       link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html'
+      { title:'Дискретна математика', icon:'⚛️', desc:'Селютін Дмитро Дмитрович.', 
+        link:'https://us02web.zoom.us/j/81680788154?pwd=IlfFdHAnLhE3PpmgpQWaOXDFlm2hDi.1', additional:'diskret.html', hw:'dzDiskret.html' 
       },
-      {title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', 
-       links:{
-         zoom1:'https://us05web.zoom.us/j/3749499044?pwd=DAta1gOcsU3yUStFEn7gbSuTJVxcbR.1',
-         zoom2:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09'
-       },
-       additional:'ENG.html', hw:'dzENG.html'},
-      {title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html'},
-      {title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html'},
-      {title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html'}
+      { title:'Кураторська година', icon:'📚', desc:'Час який проводимо з нашим куратором Ірина Карась', 
+        link:'https://us02web.zoom.us/j/8025935050?pwd=ZGREWlZlZHFUbU11d01VQXRpY3V6dz09', hw:'dzKurator.html' 
+      },
+      { title:'Англійська мова', icon:'📑', desc:'Викладач: Ilona Yershova.', 
+        links:{ zoom1:'https://us05web.zoom.us/j/3749499044?pwd=DAta1gOcsU3yUStFEn7gbSuTJVxcbR.1', zoom2:'https://us04web.zoom.us/j/7551720598?pwd=blRXZXpNc2xycU1iQkQ4b3JSOXVYZz09' },
+        additional:'ENG.html', hw:'dzENG.html'
+      },
+      { title:'Нема інформації', icon:'🧬', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz2.html' },
+      { title:'Нема інформації', icon:'🗺️', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz3.html' },
+      { title:'Нема інформації', icon:'🇬🇧', desc:'Опис чи викладач.', link:'СЫЛКА', hw:'dz4.html' }
     ];
 
     const grid = document.getElementById('grid');
 
-    function createCard(subject){
+    function createCard(subject) {
       const el = document.createElement('article'); 
-      el.className='card';
+      el.className = 'card';
       const additionalLink = subject.additional || '';
 
       let extraBtns = `
         <button class="btn secondary" ${additionalLink ? `data-additional="${additionalLink}"` : ''}>Додатково</button>
       `;
 
-      if(subject.title === 'Університетські студії'){
+      if (subject.title === 'Університетські студії') {
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
@@ -163,9 +407,8 @@
             <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
             ${extraBtns}
           </div>`;
-      }
-
-      else if(subject.title === 'Вища Математика'){
+      } 
+      else if (subject.title === 'Вища Математика') {
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
@@ -177,8 +420,8 @@
             <button class="btn" data-link="${subject.links.practice}">Приєднатись</button>
             ${extraBtns}
           </div>`;
-      } 
-      else if(subject.title === 'Алгоритмізація'){
+      }
+      else if (subject.title === 'Алгоритмізація') {
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
@@ -190,78 +433,70 @@
             <button class="btn" data-link="${subject.links.zom}">Приєднатись</button>
             ${extraBtns}
           </div>`;
-      }
-      else if(subject.title === 'Історія України'){
+      } else if(subject.title === 'Історія України') {
+  el.innerHTML = `
+    <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+    <h3>${subject.title}</h3>
+    <p>${subject.desc}</p>
+    <div class="actions">
+      <div class="btn-label">Старий Zoom</div>
+      <button class="btn" data-link="${subject.links.old}">Приєднатись</button>
+      <div class="btn-label">Новий Zoom</div>
+      <button class="btn" data-link="${subject.links.new}">Приєднатись</button>
+      ${extraBtns}
+    </div>`;
+}
+else if(subject.title === 'Англійська мова') {
+  el.innerHTML = `
+    <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
+    <h3>${subject.title}</h3>
+    <p>${subject.desc}</p>
+    <div class="actions">
+      <div class="btn-label">Zoom 1</div>
+      <button class="btn" data-link="${subject.links.zoom1}">Приєднатись</button>
+      <div class="btn-label">Zoom 2</div>
+      <button class="btn" data-link="${subject.links.zoom2}">Приєднатись</button>
+      ${extraBtns}
+    </div>`;
+}
+
+       else {
         el.innerHTML = `
           <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
           <h3>${subject.title}</h3>
           <p>${subject.desc}</p>
           <div class="actions">
-            <div class="btn-label">Практика</div>
-            <button class="btn" data-link="${subject.links.old}">Приєднатись</button>
-            <div class="btn-label">Лекція: MrL1EvWK</div>
-            <button class="btn" data-link="${subject.links.new}">Приєднатись</button>
-            ${extraBtns}
-          </div>`;
-      }
-      else if(subject.title === 'Англійська мова'){
-        el.innerHTML = `
-          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-          <h3>${subject.title}</h3>
-          <p>${subject.desc}</p>
-          <div class="actions">
-            <div class="btn-label">Zoom 1</div>
-            <button class="btn" data-link="${subject.links.zoom1}">Приєднатись</button>
-            <div class="btn-label">Zoom 2</div>
-            <button class="btn" data-link="${subject.links.zoom2}">Приєднатись</button>
-            ${extraBtns}
-          </div>`;
-      }
-      else if(subject.links){
-        el.innerHTML = `
-          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-          <h3>${subject.title}</h3>
-          <p>${subject.desc}</p>
-          <div class="actions">
-            <div class="btn-label">Meet</div>
-            <button class="btn" data-link="${subject.links.meet}">Приєднатись</button>
-            ${extraBtns}
-          </div>`;
-      } 
-      else {
-        el.innerHTML = `
-          <div class="badge"><span class="icon">${subject.icon}</span><span>Предмет</span></div>
-          <h3>${subject.title}</h3>
-          <p>${subject.desc}</p>
-          <div class="actions">
-            <div class="btn-label">Zoom</div>
-            <button class="btn" data-link="${subject.link}">Приєднатись</button>
+            ${subject.link ? `<button class="btn" data-link="${subject.link}">Приєднатись</button>` : ''}
             ${extraBtns}
           </div>`;
       }
       return el;
     }
 
-    function render(list){grid.innerHTML='';list.forEach(s=>grid.appendChild(createCard(s)));}
+    subjects.forEach(sub => grid.appendChild(createCard(sub)));
 
-    document.getElementById('search').addEventListener('input', e=>{
-      const q=e.target.value.toLowerCase().trim();
-      render(subjects.filter(s=>s.title.toLowerCase().includes(q)||s.desc.toLowerCase().includes(q)));
+    document.querySelectorAll('.btn[data-link]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.open(btn.dataset.link, '_blank');
+      });
     });
 
-    grid.addEventListener('click', e=>{
-      const btn=e.target.closest('button.btn');if(!btn) return;
-      if(btn.matches('.secondary')){
-        const link = btn.dataset.additional;
-        if(link) window.open(link, "_blank");
-        else alert(`Розділ «${btn.closest('.card').querySelector('h3').textContent}» ще допрацьовується.`);
-        return;
-      }
-      window.open(btn.dataset.link,"_blank");
+    document.querySelectorAll('.btn.secondary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.dataset.additional) window.open(btn.dataset.additional,'_blank');
+      });
     });
 
-    document.getElementById('year').textContent=new Date().getFullYear();
-    render(subjects);
+    // Поиск
+    document.getElementById('search').addEventListener('input', e => {
+      const q = e.target.value.toLowerCase();
+      grid.querySelectorAll('.card').forEach(card => {
+        card.style.display = card.querySelector('h3').textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
+    // Год в футере
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

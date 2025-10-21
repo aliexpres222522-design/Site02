@@ -1,167 +1,341 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Додаткова інформація КС11</title>
+  <title>🎃 Додаткова інформація КС11</title>
   <style>
-    :root{
-      --bg:#0f1222; --card:#161a2f; --text:#e8eaf6; --muted:#b6b9d6;
-      --accent:#6c5ce7; --accent-2:#00d4ff;
-      --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
-      --shadow-soft:0 6px 18px rgba(0,0,0,.25);
+    :root {
+      --bg: #0a0812;
+      --card: #181222;
+      --text: #f8e8d8;
+      --muted: #c8b9a3;
+      --accent: #ff7b00;
+      --accent-2: #ff4500;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.6);
+      --shadow-soft: 0 6px 18px rgba(0,0,0,.5);
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
-      background:radial-gradient(1200px 1200px at 10% 10%,#172044 0%,#0f1222 50%,#0d0f1b 100%);
-      color:var(--text);
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      font-family: 'Poppins', system-ui;
+      color: var(--text);
+      background: #000 url('img/dzvinki.jpg') center/cover no-repeat fixed;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .container{max-width:1100px;margin:0 auto;padding:40px 20px 60px}
-    header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .title{font-size:clamp(22px,3vw,34px);font-weight:800}
-    .subtitle{color:var(--muted);font-size:clamp(14px,2vw,16px)}
-    .grid{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));
-          border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);
-          padding:18px;box-shadow:var(--shadow);transition:.18s}
-    .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.45);}
-    .badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);
-           background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.35);
-           padding:6px 10px;border-radius:999px;margin-bottom:10px}
-    .btn{padding:10px 12px;border-radius:12px;font-weight:700;
-         background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0b0f1a;
-         text-decoration:none;display:inline-block}
-    .schedule-block{margin-top:50px}
-    .schedule-table{
-      width:100%;border-collapse:collapse;margin-top:20px;
-      background:var(--card);border-radius:var(--radius);overflow:hidden;
-      box-shadow:var(--shadow-soft);
+
+    /* --- Анимированный туман --- */
+    .fog {
+      position: fixed; inset: 0;
+      background: url('img/fog.png') repeat;
+      opacity: .12;
+      animation: fogmove 120s linear infinite;
+      z-index: 1; pointer-events: none;
     }
-    .schedule-table th,.schedule-table td{
-      padding:12px 16px;text-align:center;font-size:15px;
-      border-bottom:1px solid rgba(255,255,255,.08);
+    @keyframes fogmove { from {background-position:0 0;} to {background-position:10000px 0;} }
+
+    /* --- Паутина --- */
+    .web {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('img/spider.gif') top left no-repeat,
+                  url('img/spider.gif') top right no-repeat;
+      background-size: 200px;
+      opacity: .25; z-index: 2; pointer-events: none;
     }
-    .schedule-table th{background:rgba(108,92,231,.25);color:var(--accent-2);font-size:16px}
-    .schedule-table tr:last-child td{border-bottom:none}
-    .schedule-text{margin-top:40px;padding:20px;background:var(--card);border-radius:var(--radius);
-                   box-shadow:var(--shadow-soft);text-align:left;line-height:1.6}
-    .schedule-text h2{text-align:center;color:var(--accent-2);margin-bottom:15px}
-    .schedule-text .day{color:var(--accent);margin-top:20px;font-weight:700;font-size:18px}
-    footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* --- Летучие мыши --- */
+    .bat {
+      position: fixed;
+      width: 60px; height: 40px;
+      background: url('img/bat.gif') no-repeat center/contain;
+      animation: fly 18s ease-in-out infinite alternate;
+      opacity: .9; z-index: 3;
+      pointer-events: none;
+    }
+
+    @keyframes fly {
+      0% {transform: translate(0vw, 10vh) rotate(5deg);}
+      25% {transform: translate(25vw, 30vh) rotate(-8deg);}
+      50% {transform: translate(50vw, 15vh) rotate(6deg);}
+      75% {transform: translate(75vw, 35vh) rotate(-10deg);}
+      100% {transform: translate(100vw, 20vh) rotate(4deg);}
+    }
+
+    .bat:nth-child(3) { animation-duration: 20s; animation-delay: 0s; }
+    .bat:nth-child(4) { animation-duration: 22s; animation-delay: 4s; top: 30%; }
+
+    /* --- Тыквы --- */
+    .pumpkin {
+      position: fixed; width: 60px; height: 60px;
+      background: url('img/pumpkin.png') no-repeat center/contain;
+      z-index: 4; opacity: .9;
+      animation: floatPump 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes floatPump {0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+
+    /* --- Контейнер --- */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+      position: relative;
+      z-index: 5;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .title {
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff6600, #ff3300);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(255,128,0,.4);
+      transition: transform .1s ease, box-shadow .3s ease;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 20px rgba(255,128,0,.7);
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,128,0,.1), rgba(255,128,0,.04));
+      border: 1px solid rgba(255,128,0,.25);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 30px rgba(255,128,0,.4);
+      border-color: var(--accent);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      background: rgba(255,128,0,.1);
+      border: 1px solid rgba(255,128,0,.3);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: linear-gradient(180deg, rgba(255,128,0,.1), rgba(255,128,0,.04));
+  border: 1px solid rgba(255,128,0,.25);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.schedule-table:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 30px rgba(255,128,0,.4);
+  border-color: var(--accent);
+}
+
+.schedule-table th, .schedule-table td {
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+}
+
+.schedule-table th {
+  background: rgba(255,128,0,.15);
+  color: var(--accent);
+  font-size: 16px;
+}
+
+.schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+
+    .day {
+      color: var(--accent-2);
+      margin-top: 20px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
   </style>
 </head>
+
 <body>
-<div class="container">
-  <header>
-    <div>
-      <div class="title">Додаткова інформація КС11</div>
-      <div class="subtitle">Тут буде додаткова інформація по предметам, розкладу та ресурсах.</div>
-    </div>
-    <div>
+  <div class="fog"></div>
+  <div class="web"></div>
+  <div class="bat" style="top:10%; left:5%;"></div>
+  <div class="bat" style="top:20%; left:60%; animation-delay: 5s;"></div>
+  <div class="pumpkin" style="bottom:10%; left:20%;"></div>
+  <div class="pumpkin" style="bottom:5%; left:70%; animation-delay: 2s;"></div>
+
+  <div class="container">
+    <header>
+      <div>
+        <div class="title">🎃 Додаткова інформація КС11</div>
+        <div class="subtitle">Інформація про ресурси, лекції та розклад.</div>
+      </div>
       <a href="index.html" class="btn">Назад</a>
+    </header>
+
+    <main class="grid">
+      <article class="card">
+        <div class="badge">📌 Telegram</div>
+        <h3>Записи лекцій</h3>
+        <p>Лекції записані у відео форматі.</p>
+        <a class="btn" href="https://t.me/+Bn2wO3oH_GsxOTUy" target="_blank">Відкрити</a>
+      </article>
+
+      <article class="card">
+        <div class="badge">📌 Ресурси</div>
+        <h3>Telegram з куратором</h3>
+        <p>Приєднуйтесь для обговорень та консультацій.</p>
+        <a class="btn" href="https://t.me/+x_TEGq-X9kgwNTUy" target="_blank">Відкрити</a>
+      </article>
+
+      <article class="card">
+        <div class="badge">📌 Гугл Форма</div>
+        <h3>Спортивні активності</h3>
+        <p>Заповнюй гугл форму та вибирай активності.</p>
+        <a class="btn" href="https://docs.google.com/forms/d/1ABgqXek5jec05n0pyIGCKaHnPy00XtiR5BKYICh72ww/edit" target="_blank">Відкрити</a>
+      </article>
+
+      <article class="card">
+        <div class="badge">📌 Інформація</div>
+        <h3>Гугл диск</h3>
+        <p>Загальна інформація від деканату.</p>
+        <a class="btn" href="https://drive.google.com/drive/folders/0B3br2wqv1b06UFpOVGUzcTA1Vnc?resourcekey=0-qzfOja_Y1Td05uJ-vpb08w" target="_blank">Відкрити</a>
+      </article>
+    </main>
+
+    <div class="schedule-block">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Пара</th><th>Час</th><th>Перерва</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>08:30 – 09:50</td><td>20 хв</td></tr>
+          <tr><td>2</td><td>10:10 – 11:30</td><td>30 хв</td></tr>
+          <tr><td>3</td><td>12:00 – 13:20</td><td>20 хв</td></tr>
+          <tr><td>4</td><td>13:40 – 15:00</td><td>20 хв</td></tr>
+          <tr><td>5</td><td>15:20 – 16:40</td><td>20 хв</td></tr>
+          <tr><td>6</td><td>17:00 – 18:20</td><td>20 хв</td></tr>
+          <tr><td>7</td><td>18:40 – 20:00</td><td>-</td></tr>
+        </tbody>
+      </table>
+
+      <div class="schedule-text">
+        <h2>РАСПИСАНИЕ</h2>
+  
+        <div class="day">ПОНЕДЕЛЬНИК</div>
+        1. -<br>
+        2. Дискретна математика Лекція Селютін Д.Д.<br>
+        3. Історія України: цивілізаційний вимір Лекція Домановська М.Є.<br>
+        4. Вища математика Лекція Ніколенко І.Г.<br>
+        5.-<br>
+        6.-
+  
+        <div class="day">ВТОРНИК</div>
+        1.-<br>
+        2. Дискретна математика практика Селютін Д.Д. / Вища математика Практика Мелащенко<br>
+        3. Алгоритмізація та програмування Лекція Струков В.М<br>
+        4. Історія України Практика Чугуєнко М.В / Іноземна мова Практика Єршова І.Ш.<br>
+        5.-<br>
+        6.-
+  
+        <div class="day">СРЕДА</div>
+        1.-<br>
+        2. Дискретна математика Лекція Селютін / -<br>
+        3. Алгоритмізація та програмування Практика Струков В.М<br>
+        4. Кураторська година<br>
+        5. Вища математика Практика Мелащенко<br>
+        6.-
+  
+        <div class="day">ЧЕТВЕРГ</div>
+        1. Дискретна математика Практика Селютін Д.Д.<br>
+        2. Університетські студії та вступ до комп'ютерних наук Практика Зінов'єв Д.В.<br>
+        3. Алгоритмізація та програмування Лекція Струков В.М<br>
+        4.-<br>
+        5.-<br>
+        6.-
+  
+        <div class="day">ПЯТНИЦА</div>
+        1.-<br>
+        2. Університетські студії та вступ до комп'ютерних наук Лекція Узлов Д.Ю.<br>
+        3. Алгоритмізація та програмування лаб.зан. Струков В.М.<br>
+        4. Іноземна мова Практика Єршова І.Ш.<br>
+        5. Вища математика Лекція Ніколенко І.Г. / -<br>
+        6.-
+      </div>
     </div>
-  </header>
 
-  <main class="grid">
-    <article class="card">
-      <div class="badge">📌 Telegram</div>
-      <h3>Записи лекцій</h3>
-      <p>Лекції записані у відео форматі.</p>
-      <a class="btn" href="https://t.me/+Bn2wO3oH_GsxOTUy" target="_blank">Відкрити</a>
-    </article>
-    <article class="card">
-      <div class="badge">📌 Ресурси</div>
-      <h3>Telegram з куратором</h3>
-      <p>Приєднуйтесь до Telegram для обговорень та консультацій.</p>
-      <a class="btn" href="https://t.me/+x_TEGq-X9kgwNTUy" target="_blank">Відкрити</a>
-    </article>
-    <article class="card">
-      <div class="badge">📌 Гугл Форма</div>
-      <h3>Спортивні активності</h3>
-      <p>Заповнюй гугл форму та виберай активності.</p>
-      <a class="btn" href="https://docs.google.com/forms/d/1ABgqXek5jec05n0pyIGCKaHnPy00XtiR5BKYICh72ww/edit" target="_blank">Відкрити</a>
-    </article>
-    <article class="card">
-      <div class="badge">📌 Інформація</div>
-      <h3>Гугл диск</h3>
-      <p>Загальна інформація від деканату.</p>
-      <a class="btn" href="https://drive.google.com/drive/folders/0B3br2wqv1b06UFpOVGUzcTA1Vnc?resourcekey=0-qzfOja_Y1Td05uJ-vpb08w" target="_blank">Відкрити</a>
-    </article>
-  </main>
-
-  <!-- Розклад дзвінків -->
-  <div class="schedule-block">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Пара</th>
-          <th>Час</th>
-          <th>Перерва</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>08:30 – 09:50</td><td>20 хв</td></tr>
-        <tr><td>2</td><td>10:10 – 11:30</td><td>30 хв</td></tr>
-        <tr><td>3</td><td>12:00 – 13:20</td><td>20 хв</td></tr>
-        <tr><td>4</td><td>13:40 – 15:00</td><td>20 хв</td></tr>
-        <tr><td>5</td><td>15:20 – 16:40</td><td>20 хв</td></tr>
-        <tr><td>6</td><td>17:00 – 18:20</td><td>20 хв</td></tr>
-        <tr><td>7</td><td>18:40 – 20:00</td><td>-</td></tr>
-      </tbody>
-    </table>
-
-    <!-- Розклад предметів -->
-    <div class="schedule-text">
-      <h2>РАСПИСАНИЕ</h2>
-
-      <div class="day">ПОНЕДЕЛЬНИК</div>
-      1. -<br>
-      2. Дискретна математика Лекція Селютін Д.Д.<br>
-      3. Історія України: цивілізаційний вимір Лекція Домановська М.Є.<br>
-      4. Вища математика Лекція Ніколенко І.Г.<br>
-      5.-<br>
-      6.-
-
-      <div class="day">ВТОРНИК</div>
-      1.-<br>
-      2. Дискретна математика практика Селютін Д.Д. / Вища математика Практика Мелащенко<br>
-      3. Алгоритмізація та програмування Лекція Струков В.М<br>
-      4. Історія України Практика Чугуєнко М.В / Іноземна мова Практика Єршова І.Ш.<br>
-      5.-<br>
-      6.-
-
-      <div class="day">СРЕДА</div>
-      1.-<br>
-      2. Дискретна математика Лекція Селютін / -<br>
-      3. Алгоритмізація та програмування Практика Струков В.М<br>
-      4. Кураторська година<br>
-      5. Вища математика Практика Мелащенко<br>
-      6.-
-
-      <div class="day">ЧЕТВЕРГ</div>
-      1. Дискретна математика Практика Селютін Д.Д.<br>
-      2. Університетські студії та вступ до комп'ютерних наук Практика Зінов'єв Д.В.<br>
-      3. Алгоритмізація та програмування Лекція Струков В.М<br>
-      4.-<br>
-      5.-<br>
-      6.-
-
-      <div class="day">ПЯТНИЦА</div>
-      1.-<br>
-      2. Університетські студії та вступ до комп'ютерних наук Лекція Узлов Д.Ю.<br>
-      3. Алгоритмізація та програмування лаб.зан. Струков В.М.<br>
-      4. Іноземна мова Практика Єршова І.Ш.<br>
-      5. Вища математика Лекція Ніколенко І.Г. / -<br>
-      6.-
-    </div>
+    <footer>© <span id="year"></span> Розклад КС11. Демоверсія.</footer>
   </div>
 
-  <footer>© <span id="year"></span> Расписание КС11. Демоверсия.</footer>
-</div>
-
-<script>
-  document.getElementById('year').textContent=new Date().getFullYear()
-</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
